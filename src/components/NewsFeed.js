@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     StyleSheet,
     Text,
@@ -64,9 +65,7 @@ let NewsFeed = class extends Component {
                     <View style={styles.headerContainer}>
                         <TouchableOpacity onPress={() => this.closeWebView()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
                             <View>
-                                <Text style={styles.headerTitle}>
-                                    Close
-                                </Text>
+                                <Icon style={styles.closeButton} onPress={() => this.closeWebView()} name={'close'} size={20} />
                             </View>
                         </TouchableOpacity>
                         <View style={styles.headerTextContainer}>
@@ -128,6 +127,9 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'space-between',
         flexDirection: 'row'
+    },
+    closeButton: {
+        paddingLeft: 15
     },
     headerTitle: {
         marginTop: 7,
