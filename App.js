@@ -1,17 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Provider } from 'react-redux';
-import { Root } from './Router';
-import storeFactory from './src/store';
+import { View, Text } from 'react-native';
 
 export default App = () => {
-  const store = storeFactory();
 
   return (
-    <View style={{ flex: 1 }}>
-      <Provider store={store}>
-        <Root />
-      </Provider>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Welcome To Your Tuturial App</Text>
     </View>
   );
 };
