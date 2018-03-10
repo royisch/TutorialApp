@@ -6,23 +6,45 @@ import {
     Text,
     TextInput,
     View,
-    TouchableOpacity
+    TouchableOpacity, Animated
 } from 'react-native';
 import { SCREEN_WIDTH } from '../constants/Constants';
 
 let SearchPage = class extends Component {
 
     state = {
-        symbol: '',
-        isLoading: false,
-        textEmpty: false,
+        placeholder: new Animated.Value(5)
     };
+
+    componentWillMount() {
+        const { value } = this.props;
+        if (value && value.length > 0) {
+            this.animationActive(false);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { value } = nextProps;
+        if (value && value.length > 0) {
+            this.animationActive(false);
+        }
+    }
+
+    animationActive(animation) {
+        Animated.timing(this.state.placeholder, { toValue: 30, duration: animation ? 200 : 0 }).start();
+    }
+
+    animationDeactive(animation) {
+        Animated.timing(this.state.placeholder, { toValue: 5, duration: animation ? 200 : 0 }).start();
+    }
+
 
     render() {
         return (
             <View style={styles.container}>
                 <View>
                     <View style={styles.inputContainer}>
+                        <Animated.Text style={[styles.placeholder, { bottom: this.state.placeholder, fontSize: this.state.fontSize }]}>Enter you search</Animated.Text>
                         <TextInput
                             style={[styles.searchInput, {width: SCREEN_WIDTH * 0.8}]}
                             ref={(inputRef) => { this.inputRef = inputRef; }}
@@ -34,6 +56,13 @@ let SearchPage = class extends Component {
                             }}
                             autoCapitalize="none"
                             autoFocus={false}
+                            onFocus={() => this.animationActive(true)}
+                            onBlur={() => {
+                                const { value } = this.state;
+                                if (value && value.length === 0) {
+                                    this.animationDeactive(true)}
+                            }
+                            }
                         />
                     </View>
                 </View>
@@ -68,6 +97,10 @@ const styles = StyleSheet.create({
     buttonStyle: {
         color: '#fff',
         alignSelf: 'center'
+    },
+    placeholder: {
+        position: 'absolute',
+        left: 0
     },
     searchInput: {
         height: 36,
